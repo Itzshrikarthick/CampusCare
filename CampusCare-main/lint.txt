@@ -1,0 +1,117 @@
+
+C:\Users\sanja\Desktop\CampusCare\src\App.jsx
+  18:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  16 |       navigate("/admin", { replace: true });
+  17 |     } else {
+> 18 |       setIsAuthorized(true);
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |     }
+  20 |   }, [navigate]);
+  21 |  react-hooks/set-state-in-effect
+
+C:\Users\sanja\Desktop\CampusCare\src\admin\AdminCafeteria.jsx
+  11:5   error  Error: Cannot access variable before it is declared
+
+`loadCafeterias` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+   9 |
+  10 |   useEffect(() => {
+> 11 |     loadCafeterias();
+     |     ^^^^^^^^^^^^^^ `loadCafeterias` accessed before it is declared
+  12 |   }, []);
+  13 |
+  14 |   const loadCafeterias = async () => {
+
+  12 |   }, []);
+  13 |
+> 14 |   const loadCafeterias = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 15 |     const data = await fetchCafeteria();
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 16 |     setCafeterias(data);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 17 |   };
+     | ^^^^^ `loadCafeterias` is declared here
+  18 |
+  19 |   const handleUpdate = async (id, field, value) => {
+  20 |     const dataToUpdate = {};  react-hooks/immutability
+  41:58  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  39 |     if (!eventForm.title || !eventForm.date) return;
+  40 |     const cafe = cafeterias.find(c => c.id === cafeId);
+> 41 |     const updatedEvents = [...(cafe.events || []), { id: Date.now().toString(), title: eventForm.title, date: eventForm.date }];
+     |                                                          ^^^^^^^^^^ Cannot call impure function
+  42 |     await handleUpdate(cafeId, "events", updatedEvents);
+  43 |     setActiveEventForm(null);
+  44 |     setEventForm({ title: "", date: "" });                     react-hooks/purity
+
+C:\Users\sanja\Desktop\CampusCare\src\admin\AdminFacilities.jsx
+  9:5  error  Error: Cannot access variable before it is declared
+
+`loadFacilities` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+   7 |
+   8 |   useEffect(() => {
+>  9 |     loadFacilities();
+     |     ^^^^^^^^^^^^^^ `loadFacilities` accessed before it is declared
+  10 |   }, []);
+  11 |
+  12 |   const loadFacilities = async () => {
+
+  10 |   }, []);
+  11 |
+> 12 |   const loadFacilities = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |     const data = await fetchFacilities();
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 14 |     setFacilities(data);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 15 |   };
+     | ^^^^^ `loadFacilities` is declared here
+  16 |
+  17 |   const handleStatusChange = async (id, newStatus) => {
+  18 |     const updated = await updateFacilityStatus(id, newStatus);  react-hooks/immutability
+
+C:\Users\sanja\Desktop\CampusCare\src\admin\AdminLayout.jsx
+  18:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  16 |       navigate("/", { replace: true });
+  17 |     } else {
+> 18 |       setIsAuthorized(true);
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |     }
+  20 |   }, [navigate]);
+  21 |  react-hooks/set-state-in-effect
+
+C:\Users\sanja\Desktop\CampusCare\src\admin\AdminSidebar.jsx
+  46:38  error  'Icon' is defined but never used  no-unused-vars
+
+C:\Users\sanja\Desktop\CampusCare\src\pages\Dashboard.jsx
+  107:43   error  'Icon' is defined but never used  no-unused-vars
+  121:116  error  'actionText' is not defined       no-undef
+
+C:\Users\sanja\Desktop\CampusCare\src\pages\ReportEmergency.jsx
+   1:28  error  'useEffect' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                no-unused-vars
+  12:10  error  'emergencies' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  12:23  error  'setEmergencies' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\sanja\Desktop\CampusCare\src\sidebar.jsx
+  47:38  error  'Icon' is defined but never used  no-unused-vars
+
+✖ 12 problems (12 errors, 0 warnings)
+
